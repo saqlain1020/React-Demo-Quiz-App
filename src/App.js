@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Login from "./Components/Login/Login";
+import Dashboard from "./Components/Dashboard/Dashboard"
 
 class App extends Component {
   state = {
@@ -40,7 +41,8 @@ class App extends Component {
     return (
       <div>
         {this.localDemo()}
-        <Login changeState={this.changeState} />
+        {!this.state.user? <Login changeState={this.changeState} />: <Dashboard/>}
+        
       </div>
     );
   }
