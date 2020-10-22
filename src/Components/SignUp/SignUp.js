@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class Login extends Component {
+class SignUp extends Component {
     state={
         username: "",
         password: ""
@@ -15,16 +15,27 @@ class Login extends Component {
     submit=(e)=>{
         e.preventDefault();
         let users = JSON.parse(localStorage.getItem("users"));
+        let flag = false;
         users.forEach(element => {
-            if(element.username === this.state.username && element.password === this.state.password){
-                this.props.changeState(element.username);
+            if(element.username === this.state.username ){
+                alert("User Exists")
+                flag = true
+                return
             }
         });
+        if(!false){
+            users.push({
+                username: this.state.username,
+                password: this.state.password
+            })
+            localStorage.setItem("users",JSON.stringify(users));
+            this.props.changeState(this.state.username);
+        }
     }
     render() {
         return (
             <div>
-                <h1>Login</h1>
+                <h1>SignUp</h1>
                 <form onChange={this.changeInput} onSubmit={this.submit}>
                     <input name="username" defaultValue={this.state.username} type="text" placeholder="UserName"/>
                     <input type="password" name="password" defaultValue={this.state.password} placeholder="Enter Password"/>
@@ -35,4 +46,4 @@ class Login extends Component {
     }
 }
 
-export default Login;
+export default SignUp;
