@@ -35,6 +35,7 @@ class Quiz extends Component {
     if (this.state.questionNo === this.props.quiz.noOfQ) {
         console.log("Correct Anserwes");
         console.log(this.state.correctQs)
+        document.write("DONEDONEDONEDONEDONEDONEDONEDONEDONEDONEDONEDONEDONEDONe")
         return;
       }
 

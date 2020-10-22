@@ -119,7 +119,7 @@ class QuizCreate extends Component {
       >
         <h2>Qustion {this.state.currentQ}</h2>
         <textarea
-          defaultValue={this.state.question}
+          value={this.state.question}
           type="text"
           placeholder="Enter Question"
           name="question"
@@ -127,7 +127,7 @@ class QuizCreate extends Component {
         />
         <input
           type="text"
-          defaultValue={this.state.correctOp}
+          value={this.state.correctOp}
           placeholder="Correct Option"
           style={{ background: "green", color: "white" }}
           name="correctOp"
@@ -137,21 +137,21 @@ class QuizCreate extends Component {
           type="text"
           placeholder="Option 1"
           name="op1"
-          defaultValue={this.state.op1}
+          value={this.state.op1}
           onChange={this.changeInputState}
         />
         <input
           type="text"
           placeholder="Option 2"
           name="op2"
-          defaultValue={this.state.op2}
+          value={this.state.op2}
           onChange={this.changeInputState}
         />
         <input
           type="text"
           placeholder="Option 3"
           name="op3"
-          defaultValue={this.state.op3}
+          value={this.state.op3}
           onChange={this.changeInputState}
         />
         <button type="submit">Add</button>

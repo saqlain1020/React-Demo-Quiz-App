@@ -16,7 +16,7 @@ class Dashboard extends React.Component {
                 break;
             }
         }
-        if(Quiz){
+        if(quiz){
             console.log(quiz)
             this.setState({
                 quizOpen: true,
