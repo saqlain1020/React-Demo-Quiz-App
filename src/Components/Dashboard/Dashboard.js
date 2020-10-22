@@ -1,11 +1,13 @@
 import React from "react";
-import QuizCreate from "../QuizCreate/QuizCreate";
+import Quiz from "../Quiz/Quiz"
 
 class Dashboard extends React.Component {
     state={
-        quizOpen: false
+        quizOpen: false,
+        quiz: ""
     }
     quizOpen=(title,subject)=>{
+        console.log("QuizOpen")
         let quizes = JSON.parse(localStorage.getItem("quizes"));
         let quiz;
         for (let i = 0; i < quizes.length; i++) {
@@ -13,6 +15,13 @@ class Dashboard extends React.Component {
                 quiz = quizes[i];
                 break;
             }
+        }
+        if(Quiz){
+            console.log(quiz)
+            this.setState({
+                quizOpen: true,
+                quiz : <Quiz quiz = {quiz}/>
+            })
         }
 
 
@@ -31,13 +40,14 @@ class Dashboard extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {JSON.parse(localStorage.getItem("quizes")).map((item) => {
-                return <tr><td>{item.title}</td><td>{item.subject}</td><td>{item.noOfQ}</td></tr>;
-              })}
+              {localStorage.getItem("quizes")?JSON.parse(localStorage.getItem("quizes")).map((item) => {
+                return <tr onClick={()=>this.quizOpen(item.title,item.subject)}><td>{item.title}</td><td>{item.subject}</td><td>{item.noOfQ}</td></tr>;
+              }): <div>No Quizes</div>}
             </tbody>
           </table>
         </div>
       </div>)}
+      {this.state.quizOpen && this.state.quiz}
        </div>
     
   );

@@ -57,18 +57,7 @@ class QuizCreate extends Component {
   };
   submit = (e) => {
     e.preventDefault();
-    if (this.state.currentQ === this.state.noOfQ) {
-      //End Quiz Create
-      let quiz = this.state.quiz;
-      quiz.questions = this.state.questions;
-      let quizes = [];
-      if(localStorage.getItem("quizes"))
-        quizes = JSON.parse(localStorage.getItem("quizes"));
-      quizes.push(quiz);
-      localStorage.setItem("quizes", JSON.stringify(quizes));
-      this.props.dashboard();
-      return;
-    }
+
     let question = {
       question: this.state.question,
       correctOp: this.state.correctOp,
@@ -76,10 +65,36 @@ class QuizCreate extends Component {
       op2: this.state.op2,
       op3: this.state.op3,
     };
-    let questions = [...this.state.questions, question];
-    this.setState({
-      questions: questions,
-    });
+    let questions = this.state.questions;
+    questions.push(question);
+    console.log(questions);
+    this.setState(
+      {
+        questions: questions,
+      },
+      () => {
+        this.setState({
+          currentQ: Number(this.state.currentQ) + 1,
+          op1: "",
+          op2: "",
+          op3: "",
+          question: "",
+          correctOp: "",
+        });
+      }
+    );
+    if (this.state.currentQ >= this.state.noOfQ) {
+      //End Quiz Create
+      let quiz = this.state.quiz;
+      quiz.questions = this.state.questions;
+      let quizes = [];
+      if (localStorage.getItem("quizes"))
+        quizes = JSON.parse(localStorage.getItem("quizes"));
+      quizes.push(quiz);
+      localStorage.setItem("quizes", JSON.stringify(quizes));
+      this.props.dashboard();
+      return;
+    }
     // let quizes = [{
     //   subject,
     //   noOfQ,
@@ -94,20 +109,21 @@ class QuizCreate extends Component {
     // }];
 
     // currentQ++
-    this.setState({
-      currentQ: Number(this.state.currentQ) + 1,
-    });
   };
   render = () => (
     <div id="quizCreate" style={{ display: "flex", flexFlow: "column" }}>
       <h1>Quiz: {this.state.title}</h1>
-      <form onSubmit={this.submit} style={{display: "flex",flexFlow: "column"}}>
+      <form
+        onSubmit={this.submit}
+        style={{ display: "flex", flexFlow: "column" }}
+      >
         <h2>Qustion {this.state.currentQ}</h2>
         <textarea
           defaultValue={this.state.question}
           type="text"
           placeholder="Enter Question"
           name="question"
+          onChange={this.changeInputState}
         />
         <input
           type="text"
@@ -115,24 +131,28 @@ class QuizCreate extends Component {
           placeholder="Correct Option"
           style={{ background: "green", color: "white" }}
           name="correctOp"
+          onChange={this.changeInputState}
         />
         <input
           type="text"
           placeholder="Option 1"
           name="op1"
           defaultValue={this.state.op1}
+          onChange={this.changeInputState}
         />
         <input
           type="text"
           placeholder="Option 2"
           name="op2"
           defaultValue={this.state.op2}
+          onChange={this.changeInputState}
         />
         <input
           type="text"
           placeholder="Option 3"
           name="op3"
           defaultValue={this.state.op3}
+          onChange={this.changeInputState}
         />
         <button type="submit">Add</button>
       </form>
