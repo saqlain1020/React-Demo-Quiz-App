@@ -15,11 +15,15 @@ class Login extends Component {
     submit=(e)=>{
         e.preventDefault();
         let users = JSON.parse(localStorage.getItem("users"));
+        let flag = true;
         users.forEach(element => {
             if(element.username === this.state.username && element.password === this.state.password){
                 this.props.changeState(element.username);
+                flag = false;
             }
         });
+        if(flag)
+            alert("Wrong Credentials");
     }
     render() {
         return (
