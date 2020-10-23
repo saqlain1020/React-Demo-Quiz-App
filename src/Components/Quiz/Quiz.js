@@ -14,12 +14,40 @@ class Quiz extends Component {
   constructor(props) {
     super(props);
     this.rand = (Math.random() * 3).toFixed(); // 0,1,2,3
+    this.seconds = this.props.quiz.noOfQ * 30;
   }
   componentDidMount() {
     if (this.state.questionNo === this.props.quiz.noOfQ - 1)
       this.setState({
         buttonText: "Done",
       });
+
+    //Timer
+    let timerDiv = document.querySelector("#timer");
+
+    setInterval(() => {
+      this.seconds--;
+      timerDiv.innerHTML = `Timer: ${this.seconds} Sec Left`;
+      if (this.seconds === 0) {
+        let percent =
+          ((this.state.correctQs / this.props.quiz.noOfQ) * 100).toFixed(2) +
+          "%";
+        alert("Correct Anserwes" + percent);
+        //Add quiz info to user
+        let users = JSON.parse(localStorage.getItem("users"));
+        users = users.map((item) => {
+          if (item.username === this.props.username) {
+            item.quizes.push({
+              id: this.props.quiz.id,
+              score: percent,
+            });
+          }
+          return item;
+        });
+        localStorage.setItem("users", JSON.stringify(users));
+        this.props.close();
+      }
+    }, 1000);
   }
   next = () => {
     this.rand = (Math.random() * 3).toFixed(); // 0,1,2,3;
@@ -43,19 +71,19 @@ class Quiz extends Component {
     if (this.state.questionNo === this.props.quiz.noOfQ) {
       let percent =
         ((this.state.correctQs / this.props.quiz.noOfQ) * 100).toFixed(2) + "%";
-      alert("Correct Anserwes" + percent)
+      alert("Correct Anserwes" + percent);
       //Add quiz info to user
-      let users  = JSON.parse(localStorage.getItem("users"));
-      users = users.map((item)=>{
-        if(item.username === this.props.username){
+      let users = JSON.parse(localStorage.getItem("users"));
+      users = users.map((item) => {
+        if (item.username === this.props.username) {
           item.quizes.push({
             id: this.props.quiz.id,
             score: percent,
           });
         }
         return item;
-      })
-      localStorage.setItem("users",JSON.stringify(users));
+      });
+      localStorage.setItem("users", JSON.stringify(users));
       this.props.close();
     } else {
       if (this.state.questionNo < this.props.quiz.noOfQ)
@@ -91,6 +119,7 @@ class Quiz extends Component {
     return (
       <div>
         <h1>{this.props.quiz.title}</h1>
+        <h1 id="timer">Timer: 120 Sec Left</h1>
         <h2>
           Question {questionNo}/{this.props.quiz.noOfQ}
         </h2>

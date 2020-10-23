@@ -17,7 +17,22 @@ class Dashboard extends React.Component {
             }
         }
         if(quiz){
-            console.log(quiz)
+            let flag = false;
+            let score;
+            let users = JSON.parse(localStorage.getItem("users"));
+            users.forEach(item => {
+              if(item.username === this.props.username){
+                item.quizes.forEach(element=>{
+                  if(element.id === quiz.id){
+                    flag = true;
+                    score = element.score;
+                  }
+                })
+              }
+            });
+            if(flag){
+              alert(`Quiz Already Taken | ${quiz.title} | Score: ${score}`)
+            }else
             this.setState({
                 quizOpen: true,
                 quiz : <Quiz username={this.props.username} close = {()=>{this.setState({quizOpen:false})}} quiz = {quiz}/>
