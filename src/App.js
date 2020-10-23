@@ -86,7 +86,7 @@ class App extends Component {
         {console.log(localStorage)}
         {!this.state.user && this.state.signUp && (<SignUp changeState={this.changeState} />)}
         {!this.state.user && !this.state.signUp && this.state.login && (<Login changeState={this.changeState} />)}        
-        {this.state.user && !this.state.quizCreate && <Dashboard/>}
+        {this.state.user && !this.state.quizCreate && <Dashboard username={this.state.username}/>}
         {this.state.user && this.state.quizCreate && <QuizCreate dashboard={()=>{this.turnFalse("quizCreate")}} username={this.state.username}/>}
       </div>
     );

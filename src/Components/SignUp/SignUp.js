@@ -27,6 +27,7 @@ class SignUp extends Component {
     users.push({
       username: this.state.username,
       password: this.state.password,
+      quizes: []
     });
     localStorage.setItem("users", JSON.stringify(users));
     this.props.changeState(this.state.username);

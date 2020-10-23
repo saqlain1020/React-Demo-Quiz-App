@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import CustomFunctions from '../CustomFunctions/CustomFunctions'
 
 class QuizCreate extends Component {
   state = {
@@ -15,6 +16,7 @@ class QuizCreate extends Component {
     quiz: {},
   };
   componentDidMount() {
+    console.log(CustomFunctions.getRandomString(16));
     let num = Number(prompt("Enter Number Of Questions"));
     if (isNaN(num) || num < 1) this.componentDidMount();
     else
@@ -90,12 +92,20 @@ class QuizCreate extends Component {
       let quizes = [];
       if (localStorage.getItem("quizes"))
         quizes = JSON.parse(localStorage.getItem("quizes"));
+
+      //Get ids of all quizes;
+      let ids = quizes.map((item)=>{
+        return item.id;
+      })
+      let id = CustomFunctions.uniqueId(ids);
+      quiz.id = id;
       quizes.push(quiz);
       localStorage.setItem("quizes", JSON.stringify(quizes));
       this.props.dashboard();
       return;
     }
     // let quizes = [{
+    //   id,
     //   subject,
     //   noOfQ,
     //   title,

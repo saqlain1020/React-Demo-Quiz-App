@@ -20,7 +20,7 @@ class Dashboard extends React.Component {
             console.log(quiz)
             this.setState({
                 quizOpen: true,
-                quiz : <Quiz quiz = {quiz}/>
+                quiz : <Quiz username={this.props.username} close = {()=>{this.setState({quizOpen:false})}} quiz = {quiz}/>
             })
         }
 
