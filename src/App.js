@@ -4,6 +4,9 @@ import Dashboard from "./Components/Dashboard/Dashboard";
 import Navbar from "./Components/Navbar/Navbar";
 import SignUp from "./Components/SignUp/SignUp";
 import QuizCreate from "./Components/QuizCreate/QuizCreate"
+import Home from './Screens/Home';
+import Appbar from './Components/Appbar2';
+import Drawer from './Components/Drawer';
 
 class App extends Component {
   state = {
@@ -13,36 +16,36 @@ class App extends Component {
     username: "",
     quizCreate: false
   };
-  turnFalse=(name)=>{
+  turnFalse = (name) => {
     this.setState(
       {
         [name]: false
       }
     );
   }
-  turnTrue=(name)=>{
+  turnTrue = (name) => {
     this.setState(
       {
         [name]: true
       }
     );
   }
-  signUp=()=>{
-      this.setState(
-        {
-          signUp: true
-        }
-      );
+  signUp = () => {
+    this.setState(
+      {
+        signUp: true
+      }
+    );
   }
-  login=()=>{
-      this.setState(
-        {
-          signUp: false,
-          user: false,
-          login: true,
-          username: ""
-        }
-      );
+  login = () => {
+    this.setState(
+      {
+        signUp: false,
+        user: false,
+        login: true,
+        username: ""
+      }
+    );
   }
   changeState = (username) => {
     if (this.state.user)
@@ -76,7 +79,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Navbar
+        {/* <Navbar
           changeState={this.changeState}
           username={this.state.username}
           turnTrue = {this.turnTrue} 
@@ -87,7 +90,9 @@ class App extends Component {
         {!this.state.user && this.state.signUp && (<SignUp changeState={this.changeState} />)}
         {!this.state.user && !this.state.signUp && this.state.login && (<Login changeState={this.changeState} />)}        
         {this.state.user && !this.state.quizCreate && <Dashboard username={this.state.username}/>}
-        {this.state.user && this.state.quizCreate && <QuizCreate dashboard={()=>{this.turnFalse("quizCreate")}} username={this.state.username}/>}
+        {this.state.user && this.state.quizCreate && <QuizCreate dashboard={()=>{this.turnFalse("quizCreate")}} username={this.state.username}/>} */}
+        <Appbar />
+        <Home />
       </div>
     );
   }
