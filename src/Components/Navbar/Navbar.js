@@ -1,45 +1,56 @@
-import React from "react";
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import HomeIcon from '@material-ui/icons/Home';
 
-var Navbar = (props) => {
-  let navItemStyle = {
-    height: "100%",
-    marginRight: "5px",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    fontSize: "15px",
-  };
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
+  button: {
+    color: "white"
+  }
+}));
+
+export default function Navbar(props) {
+  const classes = useStyles();
+
   return (
-    <div>
-      <div
-        style={{
-          height: "50px",
-          borderBottomLeftRadius: "10px",
-          borderBottomRightRadius: "10px",
-          backgroundColor: "#222",
-          color: "white",
-          fontSize: "10px",
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
-        <h1 style={{ marginLeft: "10px" }} onClick={()=>props.turnFalse("quizCreate")}>Quiz Application</h1>
-        {!props.username && (
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+          <HomeIcon/>
+          </IconButton>
+          <Typography variant="h6" className={classes.title} onClick={()=>props.turnFalse("quizCreate")}>
+          Quiz Application
+          </Typography>
+          {!props.username && (
           <div style={{ display: "flex", marginRight: "10px" }}>
-            <div style={navItemStyle} onClick={()=>props.turnTrue("signUp")}>SignUP</div>
-            <div style={navItemStyle} onClick={props.login}>Login</div>
+            <Button color="inherit" onClick={()=>props.turnTrue("signUp")}>SignUP</Button>
+            <Button color="inherit" onClick={props.login}>Login</Button>
           </div>
         )}
         {props.username && (
           <div style={{ display: "flex", marginRight: "10px" }}>
-            <div style={navItemStyle}>Welcome {props.username}</div>
-            <div style={navItemStyle} onClick={()=>props.turnTrue("quizCreate")}>Create Quiz</div>
-            <div style={navItemStyle} onClick={props.changeState}>Logout</div>
+            <Typography variant="h6" className={classes.title}>Welcome {props.username}</Typography>
+            <Button color="inherit" onClick={()=>props.turnTrue("quizCreate")}>Create Quiz</Button>
+            <Button color="inherit" onClick={props.changeState}>Logout</Button>
           </div>
         )}
-      </div>
+        </Toolbar>
+      </AppBar>
     </div>
   );
-};
-
-export default Navbar;
+}
