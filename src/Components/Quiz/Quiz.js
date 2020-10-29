@@ -71,6 +71,7 @@ class Quiz extends Component {
     this.rand = (Math.random() * 3).toFixed(); // 0,1,2,3
     this.quiz = this.props.quiz;
     this.seconds = this.quiz.noOfQ * 30;
+    this.done = false;
   }
   componentDidMount() {
     if (this.state.questionNo === this.quiz.noOfQ - 1)
@@ -99,7 +100,8 @@ class Quiz extends Component {
         quiz: this.quiz,
         seconds: this.seconds,
       };
-      localStorage.setItem("status", JSON.stringify(status));
+      if(!this.done)
+        localStorage.setItem("status", JSON.stringify(status));
       if (this.seconds === 0) {
         let percent =
           ((this.state.correctQs / this.quiz.noOfQ) * 100).toFixed(2) + "%";
@@ -116,7 +118,8 @@ class Quiz extends Component {
           return item;
         });
         localStorage.setItem("users", JSON.stringify(users));
-        localStorage.removeItem("status");
+        this.done = true;
+        localStorage.setItem("status","");
         this.props.close();
       }
     }, 1000);
@@ -156,7 +159,8 @@ class Quiz extends Component {
         return item;
       });
       localStorage.setItem("users", JSON.stringify(users));
-      localStorage.removeItem("status");
+      this.done = true;
+      localStorage.setItem("status","");
       this.props.close();
     } else {
       if (this.state.questionNo < this.quiz.noOfQ)
