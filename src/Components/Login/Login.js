@@ -64,7 +64,7 @@ class Login extends Component {
     e.preventDefault();
     let users = JSON.parse(localStorage.getItem("users"));
     let flag = true;
-    users.forEach((element) => {
+    users?users.forEach((element) => {
       if (
         element.username === this.state.username &&
         element.password === this.state.password
@@ -72,7 +72,7 @@ class Login extends Component {
         this.props.changeState(element.username);
         flag = false;
       }
-    });
+    }):swal("Wrong Credentials","","error");
     if (flag) swal("Wrong Credentials","","error");
   };
   render() {
