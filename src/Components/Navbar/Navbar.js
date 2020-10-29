@@ -25,15 +25,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Navbar(props) {
   const classes = useStyles();
-
+ 
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-          <HomeIcon/>
+          <HomeIcon onClick={()=>props.turnFalse("quizCreate")}/>
           </IconButton>
-          <Typography variant="h6" className={classes.title} onClick={()=>props.turnFalse("quizCreate")}>
+          <Typography variant="h6" className={classes.title} onClick={()=>{props.turnFalse("quizCreate")}}>
           Quiz Application
           </Typography>
           {!props.username && (

@@ -1,5 +1,6 @@
 import React from "react";
-import Quiz from "../Quiz/Quiz"
+import Quiz from "../Quiz/Quiz";
+import QuizTable from "../QuizTable/QuizTable"
 
 class Dashboard extends React.Component {
     state={
@@ -41,25 +42,19 @@ class Dashboard extends React.Component {
 
 
     }
+    createRows(){
+      return JSON.parse(localStorage.getItem("quizes"))?JSON.parse(localStorage.getItem("quizes")).map((item) => {
+        return { title: item.title, subject: item.subject,noofqs: item.noOfQ , onclick: ()=>this.quizOpen(item.title,item.subject)};
+      }): null
+      
+    }
     //Create method that will return quiz using the quiz object passed to it from here dashboard using other funciton on clickon quizes buttpns
   render = () => (
        <div>
+         
            {!this.state.quizOpen &&(<div>
         <div className="quizMenu">
-          <table>
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Subject</th>
-                <th>No. of Qs</th>
-              </tr>
-            </thead>
-            <tbody>
-              {localStorage.getItem("quizes")?JSON.parse(localStorage.getItem("quizes")).map((item) => {
-                return <tr onClick={()=>this.quizOpen(item.title,item.subject)}><td>{item.title}</td><td>{item.subject}</td><td>{item.noOfQ}</td></tr>;
-              }): <div>No Quizes</div>}
-            </tbody>
-          </table>
+        <QuizTable rows={this.createRows()}/>
         </div>
       </div>)}
       {this.state.quizOpen && this.state.quiz}
