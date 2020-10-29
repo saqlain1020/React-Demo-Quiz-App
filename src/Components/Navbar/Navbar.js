@@ -31,7 +31,7 @@ export default function Navbar(props) {
       <AppBar position="static">
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-          <HomeIcon onClick={()=>props.turnFalse("quizCreate")}/>
+          <HomeIcon onClick={()=>{props.turnFalse("quizCreate")}}/>
           </IconButton>
           <Typography variant="h6" className={classes.title} onClick={()=>{props.turnFalse("quizCreate")}}>
           Quiz Application

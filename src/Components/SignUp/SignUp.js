@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { TextField, Button } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import "../fonts.css";
+import swal from "@sweetalert/with-react";
 
 const useStyles = (theme) => ({
   textField: {
@@ -67,7 +68,7 @@ class SignUp extends Component {
       users = JSON.parse(localStorage.getItem("users"));
     users.forEach((element) => {
       if (element.username === this.state.username) {
-        alert("User Exists");
+        swal("User Exists","","info");
         return;
       }
     });

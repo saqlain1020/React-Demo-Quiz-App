@@ -4,9 +4,6 @@ import Dashboard from "./Components/Dashboard/Dashboard";
 import Navbar from "./Components/Navbar/Navbar";
 import SignUp from "./Components/SignUp/SignUp";
 import QuizCreate from "./Components/QuizCreate/QuizCreate"
-import Home from './Screens/Home';
-import Appbar from './Components/Appbar2';
-import Drawer from './Components/Drawer';
 
 class App extends Component {
   state = {

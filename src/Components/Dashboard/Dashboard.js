@@ -2,11 +2,17 @@ import { Container } from "@material-ui/core";
 import React from "react";
 import Quiz from "../Quiz/Quiz";
 import QuizTable from "../QuizTable/QuizTable"
+import swal from "@sweetalert/with-react"
 
 class Dashboard extends React.Component {
     state={
         quizOpen: false,
         quiz: ""
+    }
+    componentDidMount(){
+      this.setState({
+        quizOpen: false
+      })
     }
     quizOpen=(title,subject)=>{
         console.log("QuizOpen")
@@ -33,7 +39,7 @@ class Dashboard extends React.Component {
               }
             });
             if(flag){
-              alert(`Quiz Already Taken | ${quiz.title} | Score: ${score}`)
+              swal(`Quiz Already Taken`,`Title:  ${quiz.title} | Score: ${score}`,"info");
             }else
             this.setState({
                 quizOpen: true,
@@ -44,17 +50,17 @@ class Dashboard extends React.Component {
 
     }
     createRows(){
-      return JSON.parse(localStorage.getItem("quizes"))?JSON.parse(localStorage.getItem("quizes")).map((item) => {
+      let rows = JSON.parse(localStorage.getItem("quizes"))?JSON.parse(localStorage.getItem("quizes")).map((item) => {
         return { title: item.title, subject: item.subject,noofqs: item.noOfQ , onclick: ()=>this.quizOpen(item.title,item.subject)};
       }): null
-      
+      rows.sort((a,b) => (a.subject > b.subject) ? 1 : ((b.subject > a.subject) ? -1 : 0));
+      return rows;
     }
     //Create method that will return quiz using the quiz object passed to it from here dashboard using other funciton on clickon quizes buttpns
   render = () => (
        <div>
-         
            {!this.state.quizOpen &&(<div>
-        <Container>
+        <Container style={{marginTop: 30}}>
         <QuizTable rows={this.createRows()}/>
         </Container>
       </div>)}

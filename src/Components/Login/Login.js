@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { TextField, Button } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import "../fonts.css";
+import swal from "@sweetalert/with-react";
 
 const useStyles = (theme) => ({
   textField: {
@@ -72,7 +73,7 @@ class Login extends Component {
         flag = false;
       }
     });
-    if (flag) alert("Wrong Credentials");
+    if (flag) swal("Wrong Credentials","","error");
   };
   render() {
     const {

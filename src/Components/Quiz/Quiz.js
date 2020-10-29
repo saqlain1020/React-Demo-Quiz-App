@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import "../fonts.css";
-import { withStyles , Button} from "@material-ui/core/";
+import { withStyles, Button } from "@material-ui/core/";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import swal from "@sweetalert/with-react";
 
 const styles = () => ({
   containerWrapper: {
@@ -68,54 +69,67 @@ class Quiz extends Component {
   constructor(props) {
     super(props);
     this.rand = (Math.random() * 3).toFixed(); // 0,1,2,3
-    this.seconds = this.props.quiz.noOfQ * 30;
+    this.quiz = this.props.quiz;
+    this.seconds = this.quiz.noOfQ * 30;
   }
   componentDidMount() {
-    if (this.state.questionNo === this.props.quiz.noOfQ - 1)
+    if (this.state.questionNo === this.quiz.noOfQ - 1)
       this.setState({
         buttonText: "Done",
       });
 
     //Timer
     let timerDiv = document.querySelector("#timer");
-
+      if(localStorage.getItem("status")){
+        let status = JSON.parse(localStorage.getItem("status"));
+        this.quiz = status.quiz;
+        this.seconds = status.seconds;
+        this.setState({
+        questionNo: status.questionNo,
+        correctQs: status.correctQs,
+        })
+      }
     setInterval(() => {
       this.seconds--;
       timerDiv.innerHTML = `Timer: ${this.seconds} Sec Left`;
       let status = {
         questionNo: this.state.questionNo,
         correctQs: this.state.correctQs,
+        quiz: this.quiz,
+        seconds: this.seconds
       };
+      localStorage.setItem("status",JSON.stringify(status));
       if (this.seconds === 0) {
         let percent =
-          ((this.state.correctQs / this.props.quiz.noOfQ) * 100).toFixed(2) +
+          ((this.state.correctQs / this.quiz.noOfQ) * 100).toFixed(2) +
           "%";
-        alert("Correct Anserwes" + percent);
+        swal("Result", "Correct Answers" + percent, "info");
         //Add quiz info to user
         let users = JSON.parse(localStorage.getItem("users"));
         users = users.map((item) => {
           if (item.username === this.props.username) {
             item.quizes.push({
-              id: this.props.quiz.id,
+              id: this.quiz.id,
               score: percent,
             });
           }
           return item;
         });
         localStorage.setItem("users", JSON.stringify(users));
+        localStorage.removeItem("status")
         this.props.close();
       }
     }, 1000);
   }
   next = () => {
     this.rand = (Math.random() * 3).toFixed(); // 0,1,2,3;
-    if (this.state.questionNo === Number(this.props.quiz.noOfQ) - 1)
+    if (this.state.questionNo === Number(this.quiz.noOfQ) - 1)
       this.setState({
         buttonText: "Done",
       });
     if (
       this.state.checkedAns ===
-      this.props.quiz.questions[this.state.questionNo - 1].correctOp
+      this.quiz.questions[this.state.questionNo - 1].correctOp
     ) {
       this.setState(
         {
@@ -126,25 +140,26 @@ class Quiz extends Component {
     } else this.showResult();
   };
   showResult = () => {
-    if (this.state.questionNo === this.props.quiz.noOfQ) {
+    if (this.state.questionNo === this.quiz.noOfQ) {
       let percent =
-        ((this.state.correctQs / this.props.quiz.noOfQ) * 100).toFixed(2) + "%";
-      alert("Correct Anserwes" + percent);
+        ((this.state.correctQs / this.quiz.noOfQ) * 100).toFixed(2) + "%";
+      swal("Result", "Correct Answers" + percent, "info");
       //Add quiz info to user
       let users = JSON.parse(localStorage.getItem("users"));
       users = users.map((item) => {
         if (item.username === this.props.username) {
           item.quizes.push({
-            id: this.props.quiz.id,
+            id: this.quiz.id,
             score: percent,
           });
         }
         return item;
       });
       localStorage.setItem("users", JSON.stringify(users));
+      localStorage.removeItem("status")
       this.props.close();
     } else {
-      if (this.state.questionNo < this.props.quiz.noOfQ)
+      if (this.state.questionNo < this.quiz.noOfQ)
         this.setState({
           questionNo: Number(this.state.questionNo) + 1,
           ch1: false,
@@ -179,11 +194,11 @@ class Quiz extends Component {
     return (
       <div className={classes.containerWrapper}>
         <div className={classes.container}>
-          <h1 className={classes.title}>Title: {this.props.quiz.title}</h1>
+          <h1 className={classes.title}>Title: {this.quiz.title}</h1>
 
           <div className={classes.titleBar}>
             <h2>
-              Question {questionNo}/{this.props.quiz.noOfQ}
+              Question {questionNo}/{this.quiz.noOfQ}
             </h2>
             <h3 id="timer" className={classes.timer}>
               Timer: 120 Sec Left
@@ -191,7 +206,7 @@ class Quiz extends Component {
           </div>
 
           <h2 className={classes.question}>
-            {this.props.quiz.questions[questionNo - 1].question}
+            {this.quiz.questions[questionNo - 1].question}
           </h2>
           {this.rand === "0" && (
             <div className={classes.answers}>
@@ -202,10 +217,10 @@ class Quiz extends Component {
                     onChange={this.checked}
                     name="ch1"
                     color="primary"
-                    value={this.props.quiz.questions[questionNo - 1].op1}
+                    value={this.quiz.questions[questionNo - 1].op1}
                   />
                 }
-                label={this.props.quiz.questions[questionNo - 1].op1}
+                label={this.quiz.questions[questionNo - 1].op1}
               />
               <FormControlLabel
                 control={
@@ -214,10 +229,10 @@ class Quiz extends Component {
                     onChange={this.checked}
                     name="ch2"
                     color="primary"
-                    value={this.props.quiz.questions[questionNo - 1].correctOp}
+                    value={this.quiz.questions[questionNo - 1].correctOp}
                   />
                 }
-                label={this.props.quiz.questions[questionNo - 1].correctOp}
+                label={this.quiz.questions[questionNo - 1].correctOp}
               />
               <FormControlLabel
                 control={
@@ -226,10 +241,10 @@ class Quiz extends Component {
                     onChange={this.checked}
                     name="ch3"
                     color="primary"
-                    value={this.props.quiz.questions[questionNo - 1].op2}
+                    value={this.quiz.questions[questionNo - 1].op2}
                   />
                 }
-                label={this.props.quiz.questions[questionNo - 1].op2}
+                label={this.quiz.questions[questionNo - 1].op2}
               />
               <FormControlLabel
                 control={
@@ -238,10 +253,10 @@ class Quiz extends Component {
                     onChange={this.checked}
                     name="ch4"
                     color="primary"
-                    value={this.props.quiz.questions[questionNo - 1].op3}
+                    value={this.quiz.questions[questionNo - 1].op3}
                   />
                 }
-                label={this.props.quiz.questions[questionNo - 1].op3}
+                label={this.quiz.questions[questionNo - 1].op3}
               />
             </div>
           )}
@@ -254,10 +269,10 @@ class Quiz extends Component {
                     onChange={this.checked}
                     name="ch1"
                     color="primary"
-                    value={this.props.quiz.questions[questionNo - 1].correctOp}
+                    value={this.quiz.questions[questionNo - 1].correctOp}
                   />
                 }
-                label={this.props.quiz.questions[questionNo - 1].correctOp}
+                label={this.quiz.questions[questionNo - 1].correctOp}
               />
               <FormControlLabel
                 control={
@@ -266,10 +281,10 @@ class Quiz extends Component {
                     onChange={this.checked}
                     name="ch2"
                     color="primary"
-                    value={this.props.quiz.questions[questionNo - 1].op1}
+                    value={this.quiz.questions[questionNo - 1].op1}
                   />
                 }
-                label={this.props.quiz.questions[questionNo - 1].op1}
+                label={this.quiz.questions[questionNo - 1].op1}
               />
               <FormControlLabel
                 control={
@@ -278,10 +293,10 @@ class Quiz extends Component {
                     onChange={this.checked}
                     name="ch3"
                     color="primary"
-                    value={this.props.quiz.questions[questionNo - 1].op2}
+                    value={this.quiz.questions[questionNo - 1].op2}
                   />
                 }
-                label={this.props.quiz.questions[questionNo - 1].op2}
+                label={this.quiz.questions[questionNo - 1].op2}
               />
               <FormControlLabel
                 control={
@@ -290,10 +305,10 @@ class Quiz extends Component {
                     onChange={this.checked}
                     name="ch4"
                     color="primary"
-                    value={this.props.quiz.questions[questionNo - 1].op3}
+                    value={this.quiz.questions[questionNo - 1].op3}
                   />
                 }
-                label={this.props.quiz.questions[questionNo - 1].op3}
+                label={this.quiz.questions[questionNo - 1].op3}
               />
             </div>
           )}
@@ -306,10 +321,10 @@ class Quiz extends Component {
                     onChange={this.checked}
                     name="ch1"
                     color="primary"
-                    value={this.props.quiz.questions[questionNo - 1].op1}
+                    value={this.quiz.questions[questionNo - 1].op1}
                   />
                 }
-                label={this.props.quiz.questions[questionNo - 1].op1}
+                label={this.quiz.questions[questionNo - 1].op1}
               />
               <FormControlLabel
                 control={
@@ -318,10 +333,10 @@ class Quiz extends Component {
                     onChange={this.checked}
                     name="ch2"
                     color="primary"
-                    value={this.props.quiz.questions[questionNo - 1].op2}
+                    value={this.quiz.questions[questionNo - 1].op2}
                   />
                 }
-                label={this.props.quiz.questions[questionNo - 1].op2}
+                label={this.quiz.questions[questionNo - 1].op2}
               />
               <FormControlLabel
                 control={
@@ -330,10 +345,10 @@ class Quiz extends Component {
                     onChange={this.checked}
                     name="ch3"
                     color="primary"
-                    value={this.props.quiz.questions[questionNo - 1].correctOp}
+                    value={this.quiz.questions[questionNo - 1].correctOp}
                   />
                 }
-                label={this.props.quiz.questions[questionNo - 1].correctOp}
+                label={this.quiz.questions[questionNo - 1].correctOp}
               />
               <FormControlLabel
                 control={
@@ -342,10 +357,10 @@ class Quiz extends Component {
                     onChange={this.checked}
                     name="ch4"
                     color="primary"
-                    value={this.props.quiz.questions[questionNo - 1].op3}
+                    value={this.quiz.questions[questionNo - 1].op3}
                   />
                 }
-                label={this.props.quiz.questions[questionNo - 1].op3}
+                label={this.quiz.questions[questionNo - 1].op3}
               />
             </div>
           )}
@@ -358,10 +373,10 @@ class Quiz extends Component {
                     onChange={this.checked}
                     name="ch1"
                     color="primary"
-                    value={this.props.quiz.questions[questionNo - 1].op1}
+                    value={this.quiz.questions[questionNo - 1].op1}
                   />
                 }
-                label={this.props.quiz.questions[questionNo - 1].op1}
+                label={this.quiz.questions[questionNo - 1].op1}
               />
               <FormControlLabel
                 control={
@@ -370,10 +385,10 @@ class Quiz extends Component {
                     onChange={this.checked}
                     name="ch2"
                     color="primary"
-                    value={this.props.quiz.questions[questionNo - 1].op2}
+                    value={this.quiz.questions[questionNo - 1].op2}
                   />
                 }
-                label={this.props.quiz.questions[questionNo - 1].op2}
+                label={this.quiz.questions[questionNo - 1].op2}
               />
               <FormControlLabel
                 control={
@@ -382,10 +397,10 @@ class Quiz extends Component {
                     onChange={this.checked}
                     name="ch3"
                     color="primary"
-                    value={this.props.quiz.questions[questionNo - 1].op3}
+                    value={this.quiz.questions[questionNo - 1].op3}
                   />
                 }
-                label={this.props.quiz.questions[questionNo - 1].op3}
+                label={this.quiz.questions[questionNo - 1].op3}
               />
               <FormControlLabel
                 control={
@@ -394,14 +409,19 @@ class Quiz extends Component {
                     onChange={this.checked}
                     name="ch4"
                     color="primary"
-                    value={this.props.quiz.questions[questionNo - 1].correctOp}
+                    value={this.quiz.questions[questionNo - 1].correctOp}
                   />
                 }
-                label={this.props.quiz.questions[questionNo - 1].correctOp}
+                label={this.quiz.questions[questionNo - 1].correctOp}
               />
             </div>
           )}
-          <Button variant="contained" color="primary" onClick={this.next}>
+          <Button
+            style={{ marginTop: 20 }}
+            variant="contained"
+            color="primary"
+            onClick={this.next}
+          >
             {buttonText}
           </Button>
         </div>
