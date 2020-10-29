@@ -1,19 +1,22 @@
 {
   "files": {
-    "main.js": "/React-Demo-Quiz-App/static/js/main.44b3cd7f.chunk.js",
-    "main.js.map": "/React-Demo-Quiz-App/static/js/main.44b3cd7f.chunk.js.map",
+    "main.css": "/React-Demo-Quiz-App/static/css/main.4bf4ff6b.chunk.css",
+    "main.js": "/React-Demo-Quiz-App/static/js/main.1f3c2e8a.chunk.js",
+    "main.js.map": "/React-Demo-Quiz-App/static/js/main.1f3c2e8a.chunk.js.map",
     "runtime-main.js": "/React-Demo-Quiz-App/static/js/runtime-main.255afba4.js",
     "runtime-main.js.map": "/React-Demo-Quiz-App/static/js/runtime-main.255afba4.js.map",
-    "static/js/2.dabb5a8d.chunk.js": "/React-Demo-Quiz-App/static/js/2.dabb5a8d.chunk.js",
-    "static/js/2.dabb5a8d.chunk.js.map": "/React-Demo-Quiz-App/static/js/2.dabb5a8d.chunk.js.map",
+    "static/js/2.8cca6570.chunk.js": "/React-Demo-Quiz-App/static/js/2.8cca6570.chunk.js",
+    "static/js/2.8cca6570.chunk.js.map": "/React-Demo-Quiz-App/static/js/2.8cca6570.chunk.js.map",
     "index.html": "/React-Demo-Quiz-App/index.html",
-    "precache-manifest.7f12dd63f8a99be84f662f9f2af92af5.js": "/React-Demo-Quiz-App/precache-manifest.7f12dd63f8a99be84f662f9f2af92af5.js",
+    "precache-manifest.f916102aaa885304399d92bc7916d507.js": "/React-Demo-Quiz-App/precache-manifest.f916102aaa885304399d92bc7916d507.js",
     "service-worker.js": "/React-Demo-Quiz-App/service-worker.js",
-    "static/js/2.dabb5a8d.chunk.js.LICENSE.txt": "/React-Demo-Quiz-App/static/js/2.dabb5a8d.chunk.js.LICENSE.txt"
+    "static/css/main.4bf4ff6b.chunk.css.map": "/React-Demo-Quiz-App/static/css/main.4bf4ff6b.chunk.css.map",
+    "static/js/2.8cca6570.chunk.js.LICENSE.txt": "/React-Demo-Quiz-App/static/js/2.8cca6570.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.255afba4.js",
-    "static/js/2.dabb5a8d.chunk.js",
-    "static/js/main.44b3cd7f.chunk.js"
+    "static/js/2.8cca6570.chunk.js",
+    "static/css/main.4bf4ff6b.chunk.css",
+    "static/js/main.1f3c2e8a.chunk.js"
   ]
 }
