@@ -1,6 +1,27 @@
 import React, { Component } from "react";
 import CustomFunctions from "../CustomFunctions/CustomFunctions";
 import swal from "@sweetalert/with-react";
+import { TextField, Button, Container } from "@material-ui/core";
+import { withStyles } from "@material-ui/core";
+import "../fonts.css";
+const styles = (theme) => ({
+  textArea: {
+    outline: "1px solid blue",
+    margin: "10px 0",
+    height: "45px",
+    fontWeight: "900",
+    fontFamily: "Roboto",
+    fontSize: "30px",
+    color: "#222"
+  },
+  textField: {
+    marginBottom: 10,
+  },
+  mainHeading: {
+    fontFamily: "Roboto",
+    fontWeight: "900",
+  },
+});
 
 class QuizCreate extends Component {
   state = {
@@ -32,7 +53,7 @@ class QuizCreate extends Component {
         async () => {
           let title = await swal("Enter Quiz Title", {
             content: "input",
-          })
+          });
           this.setState(
             {
               title: title,
@@ -40,7 +61,7 @@ class QuizCreate extends Component {
             async () => {
               let subId = await swal("Enter Subject ID", {
                 content: "input",
-              })
+              });
               this.setState(
                 {
                   subject: subId,
@@ -129,54 +150,69 @@ class QuizCreate extends Component {
 
     // currentQ++
   };
-  render = () => (
-    <div id="quizCreate" style={{ display: "flex", flexFlow: "column" }}>
-      <h1>Quiz: {this.state.title}</h1>
-      <form
-        onSubmit={this.submit}
-        style={{ display: "flex", flexFlow: "column" }}
-      >
-        <h2>Qustion {this.state.currentQ}</h2>
-        <textarea
-          value={this.state.question}
-          type="text"
-          placeholder="Enter Question"
-          name="question"
-          onChange={this.changeInputState}
-        />
-        <input
-          type="text"
-          value={this.state.correctOp}
-          placeholder="Correct Option"
-          style={{ background: "green", color: "white" }}
-          name="correctOp"
-          onChange={this.changeInputState}
-        />
-        <input
-          type="text"
-          placeholder="Option 1"
-          name="op1"
-          value={this.state.op1}
-          onChange={this.changeInputState}
-        />
-        <input
-          type="text"
-          placeholder="Option 2"
-          name="op2"
-          value={this.state.op2}
-          onChange={this.changeInputState}
-        />
-        <input
-          type="text"
-          placeholder="Option 3"
-          name="op3"
-          value={this.state.op3}
-          onChange={this.changeInputState}
-        />
-        <button type="submit">Add</button>
-      </form>
-    </div>
-  );
+  render = () => {
+    const { classes } = this.props;
+    return (
+      <Container style={{padding: "0 50px"}}>
+        <div id="quizCreate" style={{ display: "flex", flexFlow: "column" }}>
+          <h1 className={classes.mainHeading}>Quiz: {this.state.title}</h1>
+          <form
+            onSubmit={this.submit}
+            style={{ display: "flex", flexFlow: "column" }}
+          >
+            <h2 className={classes.mainHeading}>
+              Question {this.state.currentQ}
+            </h2>
+            <textarea
+              className={classes.textArea}
+              value={this.state.question}
+              type="text"
+              placeholder="Enter Question"
+              name="question"
+              onChange={this.changeInputState}
+            />
+            <TextField
+              className={classes.textField}
+              style={{ background: "#7bed9f" }}
+              onChange={this.changeInputState}
+              name="correctOp"
+              value={this.state.correctOp}
+              id="outlined-basic"
+              label="Correct Option"
+              variant="outlined"
+            />
+            <TextField
+              className={classes.textField}
+              name="op1"
+              value={this.state.op1}
+              onChange={this.changeInputState}
+              id="standard-basic"
+              label="Option 1"
+            />
+            <TextField
+              className={classes.textField}
+              name="op2"
+              value={this.state.op2}
+              onChange={this.changeInputState}
+              id="standard-basic"
+              label="Option 2"
+            />
+            <TextField
+              className={classes.textField}
+              name="op3"
+              value={this.state.op3}
+              onChange={this.changeInputState}
+              id="standard-basic"
+              label="Option 3"
+            />
+            <Button variant="contained" color="primary" type="submit">
+              Add
+            </Button>
+          </form>
+        </div>
+      </Container>
+    );
+  };
 }
 
-export default QuizCreate;
+export default withStyles(styles)(QuizCreate);
