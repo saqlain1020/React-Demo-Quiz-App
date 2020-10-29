@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import CustomFunctions from '../CustomFunctions/CustomFunctions'
+import CustomFunctions from "../CustomFunctions/CustomFunctions";
+import swal from "@sweetalert/with-react";
 
 class QuizCreate extends Component {
   state = {
@@ -15,23 +16,31 @@ class QuizCreate extends Component {
     currentQ: "1",
     quiz: {},
   };
-  componentDidMount() {
-    console.log(CustomFunctions.getRandomString(16));
-    let num = Number(prompt("Enter Number Of Questions"));
+  async componentDidMount() {
+    let num = Number(
+      await swal("Enter Number Of Questions", {
+        content: "input",
+      })
+    );
+
     if (isNaN(num) || num < 1) this.componentDidMount();
     else
       this.setState(
         {
           noOfQ: num,
         },
-        () => {
-          let title = prompt("Enter Quiz Title");
+        async () => {
+          let title = await swal("Enter Quiz Title", {
+            content: "input",
+          })
           this.setState(
             {
               title: title,
             },
-            () => {
-              let subId = prompt("Enter SubjectID");
+            async () => {
+              let subId = await swal("Enter Subject ID", {
+                content: "input",
+              })
               this.setState(
                 {
                   subject: subId,
@@ -94,9 +103,9 @@ class QuizCreate extends Component {
         quizes = JSON.parse(localStorage.getItem("quizes"));
 
       //Get ids of all quizes;
-      let ids = quizes.map((item)=>{
+      let ids = quizes.map((item) => {
         return item.id;
-      })
+      });
       let id = CustomFunctions.uniqueId(ids);
       quiz.id = id;
       quizes.push(quiz);
