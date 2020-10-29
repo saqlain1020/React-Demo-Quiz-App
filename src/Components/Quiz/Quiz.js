@@ -80,15 +80,16 @@ class Quiz extends Component {
 
     //Timer
     let timerDiv = document.querySelector("#timer");
-      if(localStorage.getItem("status")){
-        let status = JSON.parse(localStorage.getItem("status"));
-        this.quiz = status.quiz;
-        this.seconds = status.seconds;
-        this.setState({
+    if (localStorage.getItem("status")) {
+      let status = JSON.parse(localStorage.getItem("status"));
+      swal("Quiz Continuing", "", "info");
+      this.quiz = status.quiz;
+      this.seconds = status.seconds;
+      this.setState({
         questionNo: status.questionNo,
         correctQs: status.correctQs,
-        })
-      }
+      });
+    }
     setInterval(() => {
       this.seconds--;
       timerDiv.innerHTML = `Timer: ${this.seconds} Sec Left`;
@@ -96,13 +97,12 @@ class Quiz extends Component {
         questionNo: this.state.questionNo,
         correctQs: this.state.correctQs,
         quiz: this.quiz,
-        seconds: this.seconds
+        seconds: this.seconds,
       };
-      localStorage.setItem("status",JSON.stringify(status));
+      localStorage.setItem("status", JSON.stringify(status));
       if (this.seconds === 0) {
         let percent =
-          ((this.state.correctQs / this.quiz.noOfQ) * 100).toFixed(2) +
-          "%";
+          ((this.state.correctQs / this.quiz.noOfQ) * 100).toFixed(2) + "%";
         swal("Result", "Correct Answers" + percent, "info");
         //Add quiz info to user
         let users = JSON.parse(localStorage.getItem("users"));
@@ -116,7 +116,7 @@ class Quiz extends Component {
           return item;
         });
         localStorage.setItem("users", JSON.stringify(users));
-        localStorage.removeItem("status")
+        localStorage.removeItem("status");
         this.props.close();
       }
     }, 1000);
@@ -156,7 +156,7 @@ class Quiz extends Component {
         return item;
       });
       localStorage.setItem("users", JSON.stringify(users));
-      localStorage.removeItem("status")
+      localStorage.removeItem("status");
       this.props.close();
     } else {
       if (this.state.questionNo < this.quiz.noOfQ)
