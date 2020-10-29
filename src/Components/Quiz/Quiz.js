@@ -189,7 +189,7 @@ class Quiz extends Component {
           <h2 className={classes.question}>
             {this.props.quiz.questions[questionNo - 1].question}
           </h2>
-          {this.rand && (
+          {this.rand === "0" && (
             <div className={classes.answers}>
               <FormControlLabel
                 control={
@@ -241,162 +241,162 @@ class Quiz extends Component {
               />
             </div>
           )}
-          {/* {this.rand === "1" && (
+          {this.rand === "1" && (
             <div className={classes.answers}>
-              <input
-                onChange={this.checked}
-                className="checkbox"
-                type="checkbox"
-                name="ch1"
-                checked={this.state.ch1}
-                id="ch1"
-                value={this.props.quiz.questions[questionNo - 1].correctOp}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={this.state.ch1}
+                    onChange={this.checked}
+                    name="ch1"
+                    color="primary"
+                    value={this.props.quiz.questions[questionNo - 1].correctOp}
+                  />
+                }
+                label={this.props.quiz.questions[questionNo - 1].correctOp}
               />
-              <label for="ch1">
-                {this.props.quiz.questions[questionNo - 1].correctOp}
-              </label>
-              <input
-                onChange={this.checked}
-                className="checkbox"
-                type="checkbox"
-                name="ch2"
-                checked={this.state.ch2}
-                id="ch2"
-                value={this.props.quiz.questions[questionNo - 1].op1}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={this.state.ch2}
+                    onChange={this.checked}
+                    name="ch2"
+                    color="primary"
+                    value={this.props.quiz.questions[questionNo - 1].op1}
+                  />
+                }
+                label={this.props.quiz.questions[questionNo - 1].op1}
               />
-              <label for="ch2">
-                {this.props.quiz.questions[questionNo - 1].op1}
-              </label>
-              <input
-                onChange={this.checked}
-                className="checkbox"
-                type="checkbox"
-                name="ch3"
-                checked={this.state.ch3}
-                id="ch3"
-                value={this.props.quiz.questions[questionNo - 1].op2}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={this.state.ch3}
+                    onChange={this.checked}
+                    name="ch3"
+                    color="primary"
+                    value={this.props.quiz.questions[questionNo - 1].op2}
+                  />
+                }
+                label={this.props.quiz.questions[questionNo - 1].op2}
               />
-              <label for="ch3">
-                {this.props.quiz.questions[questionNo - 1].op2}
-              </label>
-              <input
-                onChange={this.checked}
-                className="checkbox"
-                type="checkbox"
-                name="ch4"
-                checked={this.state.ch4}
-                id="ch4"
-                value={this.props.quiz.questions[questionNo - 1].op3}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={this.state.ch4}
+                    onChange={this.checked}
+                    name="ch4"
+                    color="primary"
+                    value={this.props.quiz.questions[questionNo - 1].op3}
+                  />
+                }
+                label={this.props.quiz.questions[questionNo - 1].op3}
               />
-              <label for="ch4">
-                {this.props.quiz.questions[questionNo - 1].op3}
-              </label>
             </div>
           )}
           {this.rand === "2" && (
             <div className={classes.answers}>
-              <input
-                onChange={this.checked}
-                className="checkbox"
-                type="checkbox"
-                name="ch1"
-                checked={this.state.ch1}
-                id="ch1"
-                value={this.props.quiz.questions[questionNo - 1].op2}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={this.state.ch1}
+                    onChange={this.checked}
+                    name="ch1"
+                    color="primary"
+                    value={this.props.quiz.questions[questionNo - 1].op1}
+                  />
+                }
+                label={this.props.quiz.questions[questionNo - 1].op1}
               />
-              <label for="ch1">
-                {this.props.quiz.questions[questionNo - 1].op2}
-              </label>
-              <input
-                onChange={this.checked}
-                className="checkbox"
-                type="checkbox"
-                name="ch2"
-                checked={this.state.ch2}
-                id="ch2"
-                value={this.props.quiz.questions[questionNo - 1].op1}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={this.state.ch2}
+                    onChange={this.checked}
+                    name="ch2"
+                    color="primary"
+                    value={this.props.quiz.questions[questionNo - 1].op2}
+                  />
+                }
+                label={this.props.quiz.questions[questionNo - 1].op2}
               />
-              <label for="ch2">
-                {this.props.quiz.questions[questionNo - 1].op1}
-              </label>
-              <input
-                onChange={this.checked}
-                className="checkbox"
-                type="checkbox"
-                name="ch3"
-                checked={this.state.ch3}
-                id="ch3"
-                value={this.props.quiz.questions[questionNo - 1].correctOp}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={this.state.ch3}
+                    onChange={this.checked}
+                    name="ch3"
+                    color="primary"
+                    value={this.props.quiz.questions[questionNo - 1].correctOp}
+                  />
+                }
+                label={this.props.quiz.questions[questionNo - 1].correctOp}
               />
-              <label for="ch3">
-                {this.props.quiz.questions[questionNo - 1].correctOp}
-              </label>
-              <input
-                onChange={this.checked}
-                className="checkbox"
-                type="checkbox"
-                name="ch4"
-                checked={this.state.ch4}
-                id="ch4"
-                value={this.props.quiz.questions[questionNo - 1].op3}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={this.state.ch4}
+                    onChange={this.checked}
+                    name="ch4"
+                    color="primary"
+                    value={this.props.quiz.questions[questionNo - 1].op3}
+                  />
+                }
+                label={this.props.quiz.questions[questionNo - 1].op3}
               />
-              <label for="ch4">
-                {this.props.quiz.questions[questionNo - 1].op3}
-              </label>
             </div>
           )}
           {this.rand === "3" && (
             <div className={classes.answers}>
-              <input
-                onChange={this.checked}
-                className="checkbox"
-                type="checkbox"
-                name="ch1"
-                checked={this.state.ch1}
-                id="ch1"
-                value={this.props.quiz.questions[questionNo - 1].op2}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={this.state.ch1}
+                    onChange={this.checked}
+                    name="ch1"
+                    color="primary"
+                    value={this.props.quiz.questions[questionNo - 1].op1}
+                  />
+                }
+                label={this.props.quiz.questions[questionNo - 1].op1}
               />
-              <label for="ch1">
-                {this.props.quiz.questions[questionNo - 1].op2}
-              </label>
-              <input
-                onChange={this.checked}
-                className="checkbox"
-                type="checkbox"
-                name="ch2"
-                checked={this.state.ch2}
-                id="ch2"
-                value={this.props.quiz.questions[questionNo - 1].op1}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={this.state.ch2}
+                    onChange={this.checked}
+                    name="ch2"
+                    color="primary"
+                    value={this.props.quiz.questions[questionNo - 1].op2}
+                  />
+                }
+                label={this.props.quiz.questions[questionNo - 1].op2}
               />
-              <label for="ch2">
-                {this.props.quiz.questions[questionNo - 1].op1}
-              </label>
-              <input
-                onChange={this.checked}
-                className="checkbox"
-                type="checkbox"
-                name="ch3"
-                checked={this.state.ch3}
-                id="ch3"
-                value={this.props.quiz.questions[questionNo - 1].op3}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={this.state.ch3}
+                    onChange={this.checked}
+                    name="ch3"
+                    color="primary"
+                    value={this.props.quiz.questions[questionNo - 1].op3}
+                  />
+                }
+                label={this.props.quiz.questions[questionNo - 1].op3}
               />
-              <label for="ch3">
-                {this.props.quiz.questions[questionNo - 1].op3}
-              </label>
-              <input
-                onChange={this.checked}
-                className="checkbox"
-                type="checkbox"
-                name="ch4"
-                checked={this.state.ch4}
-                id="ch4"
-                value={this.props.quiz.questions[questionNo - 1].correctOp}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={this.state.ch4}
+                    onChange={this.checked}
+                    name="ch4"
+                    color="primary"
+                    value={this.props.quiz.questions[questionNo - 1].correctOp}
+                  />
+                }
+                label={this.props.quiz.questions[questionNo - 1].correctOp}
               />
-              <label for="ch4">
-                {this.props.quiz.questions[questionNo - 1].correctOp}
-              </label>
             </div>
-          )} */}
+          )}
           <button onClick={this.next}>{buttonText}</button>
         </div>
       </div>
