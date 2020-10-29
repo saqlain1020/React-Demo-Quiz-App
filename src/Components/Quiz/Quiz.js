@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "../fonts.css";
-import { withStyles } from "@material-ui/core/";
+import { withStyles , Button} from "@material-ui/core/";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 
@@ -82,6 +82,10 @@ class Quiz extends Component {
     setInterval(() => {
       this.seconds--;
       timerDiv.innerHTML = `Timer: ${this.seconds} Sec Left`;
+      let status = {
+        questionNo: this.state.questionNo,
+        correctQs: this.state.correctQs,
+      };
       if (this.seconds === 0) {
         let percent =
           ((this.state.correctQs / this.props.quiz.noOfQ) * 100).toFixed(2) +
@@ -397,7 +401,9 @@ class Quiz extends Component {
               />
             </div>
           )}
-          <button onClick={this.next}>{buttonText}</button>
+          <Button variant="contained" color="primary" onClick={this.next}>
+            {buttonText}
+          </Button>
         </div>
       </div>
     );

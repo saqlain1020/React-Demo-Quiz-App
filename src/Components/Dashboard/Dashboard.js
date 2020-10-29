@@ -1,3 +1,4 @@
+import { Container } from "@material-ui/core";
 import React from "react";
 import Quiz from "../Quiz/Quiz";
 import QuizTable from "../QuizTable/QuizTable"
@@ -53,9 +54,9 @@ class Dashboard extends React.Component {
        <div>
          
            {!this.state.quizOpen &&(<div>
-        <div className="quizMenu">
+        <Container>
         <QuizTable rows={this.createRows()}/>
-        </div>
+        </Container>
       </div>)}
       {this.state.quizOpen && this.state.quiz}
        </div>
