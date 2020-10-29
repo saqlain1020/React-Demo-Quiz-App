@@ -53,7 +53,8 @@ class Dashboard extends React.Component {
       let rows = JSON.parse(localStorage.getItem("quizes"))?JSON.parse(localStorage.getItem("quizes")).map((item) => {
         return { title: item.title, subject: item.subject,noofqs: item.noOfQ , onclick: ()=>this.quizOpen(item.title,item.subject)};
       }): null
-      rows.sort((a,b) => (a.subject > b.subject) ? 1 : ((b.subject > a.subject) ? -1 : 0));
+      if(rows)
+        rows.sort((a,b) => (a.subject > b.subject) ? 1 : ((b.subject > a.subject) ? -1 : 0));
       return rows;
     }
     //Create method that will return quiz using the quiz object passed to it from here dashboard using other funciton on clickon quizes buttpns
