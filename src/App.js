@@ -4,6 +4,7 @@ import Dashboard from "./Components/Dashboard/Dashboard";
 import Navbar from "./Components/Navbar/Navbar";
 import SignUp from "./Components/SignUp/SignUp";
 import QuizCreate from "./Components/QuizCreate/QuizCreate"
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 class App extends Component {
   state = {
@@ -76,16 +77,29 @@ class App extends Component {
   render() {
     return (
       <div>
-         <Navbar
+        <BrowserRouter>
+        <Navbar
           changeState={this.changeState}
           username={this.state.username}
           turnTrue = {this.turnTrue} 
           turnFalse = {this.turnFalse}
           login = {this.login}
         />
-        {console.log(localStorage)}
-        {!this.state.user && this.state.signUp && (<SignUp changeState={this.changeState} />)}
-        {!this.state.user && !this.state.signUp && this.state.login && (<Login changeState={this.changeState} />)}        
+          <Switch>
+            {this.state.user?<Route path="/" render={(props)=><Dashboard {...props} username={this.state.username}/>} exact/>:<Route path="/" component = {Login} exact/>}
+            <Route path="/Login" render={(props)=><Login {...props} changeState={this.changeState}/>}/>
+            <Route path="/Signup" render={(props)=><SignUp {...props} changeState={this.changeState}/>}/>
+            <Route path="/Quizcreate" component={QuizCreate}/>
+            <Route path="/Dashboard" render={(props)=><Dashboard {...props} username={this.state.username}/>}/>
+          </Switch>
+        </BrowserRouter>
+         {/* <Navbar
+          changeState={this.changeState}
+          username={this.state.username}
+          turnTrue = {this.turnTrue} 
+          turnFalse = {this.turnFalse}
+          login = {this.login}
+        /> */}       
         {this.state.user && !this.state.quizCreate && <Dashboard username={this.state.username}/>}
         {this.state.user && this.state.quizCreate && <QuizCreate dashboard={()=>{this.turnFalse("quizCreate")}} username={this.state.username}/>} 
         {/* <Appbar />

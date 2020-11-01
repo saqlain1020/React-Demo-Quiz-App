@@ -3,6 +3,8 @@ import { TextField, Button } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import "../fonts.css";
 import swal from "@sweetalert/with-react";
+import { Route, useHistory } from "react-router-dom";
+import Dashboard from "../Dashboard/Dashboard";
 
 const useStyles = (theme) => ({
   textField: {
@@ -80,6 +82,7 @@ class SignUp extends Component {
     });
     localStorage.setItem("users", JSON.stringify(users));
     this.props.changeState(this.state.username);
+    this.props.history.push("/Dashboard");
   };
   render() {
     const {

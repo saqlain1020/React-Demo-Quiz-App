@@ -3,6 +3,7 @@ import { TextField, Button } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import "../fonts.css";
 import swal from "@sweetalert/with-react";
+import { useHistory } from "react-router-dom";
 
 const useStyles = (theme) => ({
   textField: {
@@ -71,6 +72,7 @@ class Login extends Component {
       ) {
         this.props.changeState(element.username);
         flag = false;
+        this.props.history.push("/Dashboard");
       }
     }):swal("Wrong Credentials","","error");
     if (flag) swal("Wrong Credentials","","error");

@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,14 +40,14 @@ export default function Navbar(props) {
           </Typography>
           {!props.username && (
           <div style={{ display: "flex", marginRight: "10px" }}>
-            <Button color="inherit" onClick={()=>props.turnTrue("signUp")}>SignUP</Button>
-            <Button color="inherit" onClick={props.login}>Login</Button>
+            <Link to="/Signup"><Button color="inherit">SignUP</Button></Link>
+            <Link to="/Login"><Button color="inherit">Login</Button></Link>
           </div>
         )}
         {props.username && (
           <div style={{ display: "flex", marginRight: "10px" }}>
             <Typography variant="h6" className={classes.title}>Welcome {props.username}</Typography>
-            <Button color="inherit" onClick={()=>props.turnTrue("quizCreate")}>Create Quiz</Button>
+            <Link to="/Quizcreate"><Button color="inherit">Create Quiz</Button></Link>
             <Button color="inherit" onClick={props.changeState}>Logout</Button>
           </div>
         )}
