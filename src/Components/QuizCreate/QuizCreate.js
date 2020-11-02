@@ -4,6 +4,7 @@ import swal from "@sweetalert/with-react";
 import { TextField, Button, Container } from "@material-ui/core";
 import { withStyles } from "@material-ui/core";
 import "../fonts.css";
+import {withRouter} from 'react-router-dom';
 const styles = (theme) => ({
   textArea: {
     outline: "1px solid blue",
@@ -99,7 +100,6 @@ class QuizCreate extends Component {
     };
     let questions = this.state.questions;
     questions.push(question);
-    console.log(questions);
     this.setState(
       {
         questions: questions,
@@ -131,7 +131,7 @@ class QuizCreate extends Component {
       quiz.id = id;
       quizes.push(quiz);
       localStorage.setItem("quizes", JSON.stringify(quizes));
-      this.props.dashboard();
+      this.props.history.push("/Dashboard");
       return;
     }
     // let quizes = [{

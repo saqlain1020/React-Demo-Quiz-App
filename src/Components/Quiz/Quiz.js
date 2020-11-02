@@ -68,8 +68,15 @@ class Quiz extends Component {
   };
   constructor(props) {
     super(props);
+    this.quizid = this.props.match.params.quizid
+    let quizes = JSON.parse(localStorage.getItem("quizes"));
+    for (let i = 0; i < quizes.length; i++) {
+      if (quizes[i].id === this.quizid) {
+        this.quiz = quizes[i];
+        break;
+      }
+    }
     this.rand = (Math.random() * 3).toFixed(); // 0,1,2,3
-    this.quiz = this.props.quiz;
     this.seconds = this.quiz.noOfQ * 30;
     this.done = false;
   }
@@ -120,7 +127,7 @@ class Quiz extends Component {
         localStorage.setItem("users", JSON.stringify(users));
         this.done = true;
         localStorage.setItem("status","");
-        this.props.close();
+        this.props.history.goBack();
       }
     }, 1000);
   }
@@ -161,7 +168,7 @@ class Quiz extends Component {
       localStorage.setItem("users", JSON.stringify(users));
       this.done = true;
       localStorage.setItem("status","");
-      this.props.close();
+      this.props.history.goBack();
     } else {
       if (this.state.questionNo < this.quiz.noOfQ)
         this.setState({

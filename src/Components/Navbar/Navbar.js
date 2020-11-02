@@ -33,7 +33,7 @@ export default function Navbar(props) {
       <AppBar position="static">
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-          <HomeIcon onClick={()=>{props.turnFalse("quizCreate")}}/>
+          <Link to="/"><HomeIcon/></Link>
           </IconButton>
           <Typography variant="h6" className={classes.title} onClick={()=>{props.turnFalse("quizCreate")}}>
           Quiz Application
@@ -48,7 +48,7 @@ export default function Navbar(props) {
           <div style={{ display: "flex", marginRight: "10px" }}>
             <Typography variant="h6" className={classes.title}>Welcome {props.username}</Typography>
             <Link to="/Quizcreate"><Button color="inherit">Create Quiz</Button></Link>
-            <Button color="inherit" onClick={props.changeState}>Logout</Button>
+            <Link to="/Login"><Button color="inherit" onClick={props.changeState}>Logout</Button></Link>
           </div>
         )}
         </Toolbar>
