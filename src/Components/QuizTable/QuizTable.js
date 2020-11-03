@@ -76,6 +76,7 @@ class CustomizedTables extends React.Component{
 
   render=()=>{
     const {classes} = this.props;
+
     return (
       <div className={classes.root} >
         <TableContainer component={Paper}>

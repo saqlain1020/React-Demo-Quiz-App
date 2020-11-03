@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import CustomFunctions from "../CustomFunctions/CustomFunctions";
 import swal from "@sweetalert/with-react";
+import Swal from "sweetalert2/dist/sweetalert2.js";
+
+import "sweetalert2/src/sweetalert2.scss";
 import { TextField, Button, Container } from "@material-ui/core";
 import { withStyles } from "@material-ui/core";
 import "../fonts.css";
-import {withRouter} from 'react-router-dom';
+import firebase, { auth, db } from "../../Util/firebase";
+
 const styles = (theme) => ({
   textArea: {
     outline: "1px solid blue",
@@ -13,7 +17,7 @@ const styles = (theme) => ({
     fontWeight: "900",
     fontFamily: "Roboto",
     fontSize: "30px",
-    color: "#222"
+    color: "#222",
   },
   textField: {
     marginBottom: 10,
@@ -60,12 +64,24 @@ class QuizCreate extends Component {
               title: title,
             },
             async () => {
-              let subId = await swal("Enter Subject ID", {
-                content: "input",
+              let courses = [];
+              let query = await firebase
+                .firestore()
+                .collection("courses")
+                .get();
+              query.forEach((doc) => {
+                courses.push(doc.data().courseName);
+              });
+              let subId = await Swal.fire({
+                title: "Enter Course Name",
+                input: "select",
+                inputOptions: Object.assign(
+                  ...courses.map((item) => ({ [item]: item }))
+                ),
               });
               this.setState(
                 {
-                  subject: subId,
+                  subject: subId.value,
                 },
                 () => {
                   this.setState({
@@ -73,7 +89,7 @@ class QuizCreate extends Component {
                       subject: this.state.subject,
                       noOfQ: this.state.noOfQ,
                       title: this.state.title,
-                      createdBy: this.props.username,
+                      createdBy: auth.currentUser.uid,
                     },
                   });
                 }
@@ -88,7 +104,7 @@ class QuizCreate extends Component {
       [e.target.name]: e.target.value,
     });
   };
-  submit = (e) => {
+  submit = async (e) => {
     e.preventDefault();
 
     let question = {
@@ -119,18 +135,8 @@ class QuizCreate extends Component {
       //End Quiz Create
       let quiz = this.state.quiz;
       quiz.questions = this.state.questions;
-      let quizes = [];
-      if (localStorage.getItem("quizes"))
-        quizes = JSON.parse(localStorage.getItem("quizes"));
-
-      //Get ids of all quizes;
-      let ids = quizes.map((item) => {
-        return item.id;
-      });
-      let id = CustomFunctions.uniqueId(ids);
-      quiz.id = id;
-      quizes.push(quiz);
-      localStorage.setItem("quizes", JSON.stringify(quizes));
+      console.log(quiz)
+      await db.collection("quizes").add(quiz);
       this.props.history.push("/Dashboard");
       return;
     }
@@ -153,7 +159,7 @@ class QuizCreate extends Component {
   render = () => {
     const { classes } = this.props;
     return (
-      <Container style={{padding: "0 50px"}}>
+      <Container style={{ padding: "0 50px" }}>
         <div id="quizCreate" style={{ display: "flex", flexFlow: "column" }}>
           <h1 className={classes.mainHeading}>Quiz: {this.state.title}</h1>
           <form

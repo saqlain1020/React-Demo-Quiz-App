@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { TextField, Button } from "@material-ui/core";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import "../fonts.css";
 import swal from "@sweetalert/with-react";
-import { Route, useHistory } from "react-router-dom";
-import Dashboard from "../Dashboard/Dashboard";
+import firebase from "../../Util/firebase";
+
+
+var db = firebase.firestore();
 
 const useStyles = (theme) => ({
   textField: {
@@ -56,6 +58,9 @@ class SignUp extends Component {
     username: "",
     password: "",
   };
+  componentDidMount=()=>{
+    
+  }
   changeInput = (e) => {
     let name = e.target.name;
     let value = e.target.value;
@@ -63,26 +68,45 @@ class SignUp extends Component {
       [name]: value,
     });
   };
-  submit = (e) => {
-    e.preventDefault();
-    let users = [];
-    if (JSON.parse(localStorage.getItem("users")))
-      users = JSON.parse(localStorage.getItem("users"));
-    users.forEach((element) => {
-      if (element.username === this.state.username) {
-        swal("User Exists","","info");
-        return;
-      }
-    });
+  componentDidUpdate=()=>{
+    console.log(firebase.auth().currentUser);  
+  
+  }
 
-    users.push({
-      username: this.state.username,
-      password: this.state.password,
-      quizes: [],
-    });
-    localStorage.setItem("users", JSON.stringify(users));
-    this.props.changeState(this.state.username);
-    this.props.history.push("/Dashboard");
+  submit = async (e) => {
+    e.preventDefault();
+    const {username,password} = this.state;
+    try {
+      const user = await firebase.auth().createUserWithEmailAndPassword(username,password);  
+      const userObj = {
+        uid: firebase.auth().currentUser.uid,
+        courses: []
+      }
+      await db.collection("users").add(userObj);
+      this.props.history.push("/Dashboard");
+    } catch (error) {
+      swal(null,error.message,"error");
+    }
+    
+
+    // let users = [];
+    // if (JSON.parse(localStorage.getItem("users")))
+    //   users = JSON.parse(localStorage.getItem("users"));
+    // users.forEach((element) => {
+    //   if (element.username === this.state.username) {
+    //     swal("User Exists", "", "info");
+    //     return;
+    //   }
+    // });
+
+    // users.push({
+    //   username: this.state.username,
+    //   password: this.state.password,
+    //   quizes: [],
+    // });
+    // localStorage.setItem("users", JSON.stringify(users));
+    // this.props.changeState(this.state.username);
+    // this.props.history.push("/Dashboard");
   };
   render() {
     const {

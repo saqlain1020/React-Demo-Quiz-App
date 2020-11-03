@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
 import { Link } from 'react-router-dom';
+import {auth} from '../../Util/firebase'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,17 +39,17 @@ export default function Navbar(props) {
           <Typography variant="h6" className={classes.title} onClick={()=>{props.turnFalse("quizCreate")}}>
           Quiz Application
           </Typography>
-          {!props.username && (
+          {!props.user && (
           <div style={{ display: "flex", marginRight: "10px" }}>
             <Link to="/Signup"><Button color="inherit">SignUP</Button></Link>
             <Link to="/Login"><Button color="inherit">Login</Button></Link>
           </div>
         )}
-        {props.username && (
+        {props.user && (
           <div style={{ display: "flex", marginRight: "10px" }}>
             <Typography variant="h6" className={classes.title}>Welcome {props.username}</Typography>
             <Link to="/Quizcreate"><Button color="inherit">Create Quiz</Button></Link>
-            <Link to="/Login"><Button color="inherit" onClick={props.changeState}>Logout</Button></Link>
+            <Link onClick={()=>auth.signOut()}><Button color="inherit">Logout</Button></Link>
           </div>
         )}
         </Toolbar>

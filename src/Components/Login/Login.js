@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { TextField, Button } from "@material-ui/core";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import {  withStyles } from "@material-ui/core/styles";
 import "../fonts.css";
 import swal from "@sweetalert/with-react";
-import { useHistory } from "react-router-dom";
+import firebase from '../../Util/firebase'
 
 const useStyles = (theme) => ({
   textField: {
@@ -61,21 +61,31 @@ class Login extends Component {
       [name]: value,
     });
   };
-  submit = (e) => {
+
+  submit = async (e) => {
     e.preventDefault();
-    let users = JSON.parse(localStorage.getItem("users"));
-    let flag = true;
-    users?users.forEach((element) => {
-      if (
-        element.username === this.state.username &&
-        element.password === this.state.password
-      ) {
-        this.props.changeState(element.username);
-        flag = false;
-        this.props.history.push("/Dashboard");
-      }
-    }):swal("Wrong Credentials","","error");
-    if (flag) swal("Wrong Credentials","","error");
+
+    const {username,password} = this.state;
+    try {
+      await firebase.auth().signInWithEmailAndPassword(username,password);  
+      this.props.history.push("/Dashboard");
+    } catch (error) {
+      swal(null,error.message,"error");
+    }
+
+    // let users = JSON.parse(localStorage.getItem("users"));
+    // let flag = true;
+    // users?users.forEach((element) => {
+    //   if (
+    //     element.username === this.state.username &&
+    //     element.password === this.state.password
+    //   ) {
+    //     this.props.changeState(element.username);
+    //     flag = false;
+    //     this.props.history.push("/Dashboard");
+    //   }
+    // }):swal("Wrong Credentials","","error");
+    // if (flag) swal("Wrong Credentials","","error");
   };
   render() {
     const {

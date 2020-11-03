@@ -20,4 +20,5 @@ a:visited{
 a{
     background-color: inherit;
     color: inherit;
+    text-decoration: none;
 }
