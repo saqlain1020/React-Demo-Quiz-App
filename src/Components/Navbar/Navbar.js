@@ -49,7 +49,7 @@ export default function Navbar(props) {
           <div style={{ display: "flex", marginRight: "10px" }}>
             <Typography variant="h6" className={classes.title}>Welcome {props.username}</Typography>
             <Link to="/Quizcreate"><Button color="inherit">Create Quiz</Button></Link>
-            <Link onClick={()=>auth.signOut()}><Button color="inherit">Logout</Button></Link>
+            <Link onClick={()=>{auth.signOut()}}><Button color="inherit">Logout</Button></Link>
           </div>
         )}
         </Toolbar>

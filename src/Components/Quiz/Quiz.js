@@ -58,6 +58,7 @@ const styles = () => ({
 
 class Quiz extends Component {
   state = {
+    user: null,
     questionNo: 1,
     buttonText: "Next",
     ch1: false,
@@ -87,7 +88,7 @@ class Quiz extends Component {
     // this.done = false;
   }
   componentDidUpdate=async(preProp)=>{
-    if(preProp!==this.props){
+    if(!this.state.user){
       let user,query;
       query = await db
       .collection("users")
@@ -102,6 +103,7 @@ class Quiz extends Component {
     }
   }
   componentDidMount = async () => {
+    this.rand = (Math.random() * 3).toFixed(); // 0,1,2,3
     
     const quizId = this.props.match.params.quizid;
     
@@ -112,7 +114,7 @@ class Quiz extends Component {
     this.setState({
       quiz,
     });
-
+    this.seconds = this.state.quiz.noOfQ * 30;
     if (this.state.questionNo === this.state.quiz.noOfQ - 1)
       this.setState({
         buttonText: "Done",
@@ -121,8 +123,7 @@ class Quiz extends Component {
     // //Timer
     let timerDiv = document.querySelector("#timer");
 
-    this.rand = (Math.random() * 3).toFixed(); // 0,1,2,3
-    this.seconds = this.state.quiz.noOfQ * 30;
+    
     this.done = false;
 
     // if (localStorage.getItem("status")) {

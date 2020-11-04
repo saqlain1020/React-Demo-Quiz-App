@@ -85,6 +85,7 @@ class App extends Component {
         // User is signed in.
         this.setState({
           uid: user.uid,
+          user,
         },()=>{
           console.log(this.state)
           this.fetchUser();
@@ -94,6 +95,10 @@ class App extends Component {
       } else {
         if (currentPath !== "Signup" || currentPath !== "Login")
           history.push("/Login");
+        this.setState({
+          user: null,
+          uid: null,
+        })
       }
     });
   };
