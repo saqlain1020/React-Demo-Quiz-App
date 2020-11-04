@@ -9,6 +9,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import QuizResult from "../QuizResult/QuizResult";
 import {v4 as uuid } from "uuid";
+import {db,auth} from "../../Util/firebase";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -42,41 +43,91 @@ const styles =(theme)=>({
 
 class CustomizedTables extends React.Component{
   state={
-    quizResult: ""
+    quizResult: "",
+    rows:[],
+    user:{},
   }
 
-  quizClick=(row)=>{
+  
+  componentDidUpdate=(preProp)=>{
+    if(preProp!=this.props){
+      this.createRows();
+    }  
+  }
 
-    console.log(row)
-    let flag = false;
-      let score;
-      let users = JSON.parse(localStorage.getItem("users"));
-      users.forEach((item) => {
-        if (item.username === this.props.username) {
-          item.quizes.forEach((element) => {
-            if (element.id === row.id) {
-              flag = true;
-              score = element.score;
-            }
-          });
-        }
-      });
-      this.setState({
-        quizResult: <QuizResult key={uuid()} title={row.title} noOfQ={row.noofqs} score={score} id={row.id} />,
-      })
+  createRows = async () => {
+    const {quizes} = this.props;
+    let rows = quizes?quizes.map((item) => {
+      return {
+        title: item.title,
+        subject: item.subject,
+        noofqs: item.noOfQ,
+        id: item.id,
+        onclick: () => this.quizClick(item.id),
+      };
+    }):[];
+    // if (rows)
+    //   rows.sort((a, b) =>
+    //     a.subject > b.subject ? 1 : b.subject > a.subject ? -1 : 0
+    //   );
+    this.setState({
+      rows,
+    })
+  };
+  quizClick=(row)=>{
+    const {user} = this.props;
+    let flag , score;
+
+    user.quizes?user.quizes.forEach(item=>{
+      if(item.id === row.id){
+        flag = true;
+        score = item.score;
+      }
+    }):flag= false;
+
+
+    this.setState({
+      quizResult: <QuizResult key={uuid()} title={row.title} noOfQ={row.noofqs} score={score} id={row.id} />,
+    })
+  //       <QuizResult title={row.title} noOfQ={row.noofqs} score={score} id={row.id} />
+  //       if(flag){
+  // <QuizResult title={row.title} noOfQ={row.noofqs} score={score} id={row.id} />
+  //       }else{
+  //         <QuizResult title={row.title} noOfQ={row.noofqs} score={score} />
+  //         <Quiz username={this.props.username} close={() => {this.setState({ quizOpen: false });}} quiz={quiz}/>
+  //       }
+      
+
+
+    // console.log(row)
+    // let flag = false;
+    //   let score;
+    //   let users = JSON.parse(localStorage.getItem("users"));
+    //   users.forEach((item) => {
+    //     if (item.username === this.props.username) {
+    //       item.quizes.forEach((element) => {
+    //         if (element.id === row.id) {
+    //           flag = true;
+    //           score = element.score;
+    //         }
+    //       });
+    //     }
+    //   });
+    //   this.setState({
+    //     quizResult: <QuizResult key={uuid()} title={row.title} noOfQ={row.noofqs} score={score} id={row.id} />,
+    //   })
       // <QuizResult title={row.title} noOfQ={row.noofqs} score={score} id={row.id} />
-      if(flag){
+      // if(flag){
 // <QuizResult title={row.title} noOfQ={row.noofqs} score={score} id={row.id} />
-      }else{
+      // }else{
         // <QuizResult title={row.title} noOfQ={row.noofqs} score={score} />
         // <Quiz username={this.props.username} close={() => {this.setState({ quizOpen: false });}} quiz={quiz}/>
-      }
+      // }
     
   }
 
   render=()=>{
     const {classes} = this.props;
-
     return (
       <div className={classes.root} >
         <TableContainer component={Paper}>
@@ -89,8 +140,8 @@ class CustomizedTables extends React.Component{
               </TableRow>
             </TableHead>
             <TableBody>
-              {this.props.rows ? (
-                this.props.rows.map((row) => (
+              {this.state.rows ? (
+                this.state.rows.map((row) => (
                   <StyledTableRow key={uuid()} onClick={()=>{this.quizClick(row)}} key={row.title}>
                     <StyledTableCell component="th" scope="row">
                       {row.title}

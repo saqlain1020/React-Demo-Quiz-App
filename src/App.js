@@ -76,6 +76,7 @@ class App extends Component {
       user: user,
     })
   };
+
   componentDidMount = () => {
     const { history } = this.props;
     firebase.auth().onAuthStateChanged((user)=> {
@@ -149,13 +150,13 @@ class App extends Component {
           <Route
             path="/AllQuizes/:courseName"
             render={(props) => (
-              <Dashboard {...props} username={this.state.username} />
+              <Dashboard {...props} />
             )}
           />
           <Route
             path="/Quizes/:quizid"
             render={(props) => (
-              <Quiz {...props} username={this.state.username} />
+              <Quiz {...props} uid = {this.state.uid}/>
             )}
           />
         </Switch>

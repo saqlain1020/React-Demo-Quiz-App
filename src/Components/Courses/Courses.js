@@ -10,24 +10,28 @@ class Courses extends Component {
   };
 
   componentDidUpdate = (preProp, preState) => {
+    console.log("Update");
     if (preProp.user !== this.props.user) this.fetchCourses();
   };
-  
 
   getUserCourses = () => {
-    let recommendedCourses = [];
-    this.state.courses.filter((item) => {
-      if (
-        !this.state.joinedCourses.some((element) => {
-          if (element === item) return true;
-        })
-      ) {
-        recommendedCourses.push(item);
-      }
-    });
-    this.setState({
+    try {
+      let recommendedCourses = [];
+      this.state.courses.filter((item) => {
+        if (
+          !this.state.joinedCourses.some((element) => {
+            if (element === item) return true;
+          })
+        ) {
+          recommendedCourses.push(item);
+        }
+      });
+      this.setState({
         recommendedCourses,
-    })
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   fetchCourses = async () => {
@@ -48,8 +52,9 @@ class Courses extends Component {
   componentDidMount = () => {
     console.log(auth.currentUser);
     console.log(this.props);
-    console.log(this.state)
-    console.log("Mounted")
+    console.log(this.state);
+    console.log("Mounted");
+    this.fetchCourses();
     // this.fetchCourses();
     // let query = await db.collection("users").where("uid","===",auth.currentUser.uid).get();
     // query.forEach(item=>{
@@ -73,8 +78,8 @@ class Courses extends Component {
         />
         <CoursesTable
           recommendedCourses={this.state.recommendedCourses}
-          user = {this.props.user}
-          fetchCourses = {this.fetchCourses}
+          user={this.props.user}
+          fetchCourses={this.fetchCourses}
           heading="RECOMMENDED COURSES"
         />
       </div>

@@ -11,75 +11,27 @@ class Dashboard extends React.Component {
     quiz: "",
     quizes: [],
     rows: [],
+    user:{},
   };
-  componentDidMount() {
-    this.setState({
-      quizOpen: false,
-    });
-  }
-  quizOpen = (title, subject) => {
-    let quizes = JSON.parse(localStorage.getItem("quizes"));
-    let quiz;
-    for (let i = 0; i < quizes.length; i++) {
-      if (quizes[i].title === title && quizes[i].subject === subject) {
-        quiz = quizes[i];
-        break;
-      }
-    }
-    if (quiz) {
-      let flag = false;
-      let score;
-      let users = JSON.parse(localStorage.getItem("users"));
-      users.forEach((item) => {
-        if (item.username === this.props.username) {
-          item.quizes.forEach((element) => {
-            if (element.id === quiz.id) {
-              flag = true;
-              score = element.score;
-            }
-          });
-        }
-      });
-      if (flag) {
-        swal(
-          `Quiz Already Taken`,
-          `Title:  ${quiz.title} | Score: ${score}`,
-          "info"
-        );
-      } else
-        this.setState({
-          quizOpen: true,
-          quiz: (
-            <Quiz
-              username={this.props.username}
-              close={() => {
-                this.setState({ quizOpen: false });
-              }}
-              quiz={quiz}
-            />
-          ),
-        });
-    }
-  };
-  createRows = async () => {
-    const {quizes} = this.state;
-    let rows = quizes?quizes.map((item) => {
-      return {
-        title: item.title,
-        subject: item.subject,
-        noofqs: item.noOfQ,
-        id: item.id,
-        onclick: () => this.quizOpen(item.title, item.subject),
-      };
-    }):[];
-    // if (rows)
-    //   rows.sort((a, b) =>
-    //     a.subject > b.subject ? 1 : b.subject > a.subject ? -1 : 0
-    //   );
-    this.setState({
-      rows,
-    })
-  };
+  // createRows = async () => {
+  //   const {quizes} = this.state;
+  //   let rows = quizes?quizes.map((item) => {
+  //     return {
+  //       title: item.title,
+  //       subject: item.subject,
+  //       noofqs: item.noOfQ,
+  //       id: item.id,
+  //       onclick: () => this.quizOpen(item.id),
+  //     };
+  //   }):[];
+  //   // if (rows)
+  //   //   rows.sort((a, b) =>
+  //   //     a.subject > b.subject ? 1 : b.subject > a.subject ? -1 : 0
+  //   //   );
+  //   this.setState({
+  //     rows,
+  //   })
+  // };
   componentDidMount = async() => {
     const courseName = this.props.match.params.courseName;
     let quizes = [];
@@ -92,9 +44,17 @@ class Dashboard extends React.Component {
       obj.id = doc.id;
       quizes.push(obj);
     });
+
+    let user;
+    let userQuery = await db.collection("users").where("uid","==",auth.currentUser.uid).get();
+    userQuery.forEach(doc=>{
+      user = doc.data();
+    })
+
     this.setState({
       quizes,
-    },this.createRows)
+      user,
+    })
   };
   //Create method that will return quiz using the quiz object passed to it from here dashboard using other funciton on clickon quizes buttpns
   render = () => (
@@ -104,8 +64,10 @@ class Dashboard extends React.Component {
         <div>
           <Container style={{ marginTop: 30 }}>
             <QuizTable
+              quizes = {this.state.quizes}
               username={this.props.username}
               rows={this.state.rows}
+              user = {this.state.user}
             />
           </Container>
         </div>
