@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import CustomFunctions from "../CustomFunctions/CustomFunctions";
 import swal from "@sweetalert/with-react";
-import Swal from "sweetalert2/dist/sweetalert2.js";
+import Swal from "sweetalert2/dist/sweetalert2";
 
 import "sweetalert2/src/sweetalert2.scss";
 import { TextField, Button, Container } from "@material-ui/core";
