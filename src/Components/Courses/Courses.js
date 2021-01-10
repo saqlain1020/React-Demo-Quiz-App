@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import CoursesTable from "../CoursesTable/CoursesTable";
-import firebase, { auth } from "../../Util/firebase";
+import firebase from "../../Util/firebase";
 
 class Courses extends Component {
   state = {
