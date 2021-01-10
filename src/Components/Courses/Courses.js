@@ -10,7 +10,7 @@ class Courses extends Component {
   };
 
   componentDidUpdate = (preProp, preState) => {
-    console.log("Update");
+    // console.log("Update");
     if (preProp.user !== this.props.user) this.fetchCourses();
   };
 
@@ -51,10 +51,10 @@ class Courses extends Component {
   };
 
   componentDidMount = () => {
-    console.log(auth.currentUser);
-    console.log(this.props);
-    console.log(this.state);
-    console.log("Mounted");
+    // console.log(auth.currentUser);
+    // console.log(this.props);
+    // console.log(this.state);
+    // console.log("Mounted");
     this.fetchCourses();
     // this.fetchCourses();
     // let query = await db.collection("users").where("uid","===",auth.currentUser.uid).get();

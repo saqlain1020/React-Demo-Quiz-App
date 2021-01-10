@@ -89,10 +89,10 @@ var ItemJoined = (props) => {
 var ItemRecommended = (props) => {
   const classes = useStyles();
   let onClick = async () => {
-    console.log(props);
+    // console.log(props);
     let { courses } = props.user;
     courses.push(props.courseName);
-    console.log(courses);
+    // console.log(courses);
     let obj = props.user;
     obj.courses = courses;
     await db.collection("users").doc(props.user.docId).set(obj);

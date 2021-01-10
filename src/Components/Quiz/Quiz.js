@@ -206,7 +206,7 @@ class Quiz extends Component {
         score: percent,
       });
       user.quizes = userQuiz
-      console.log(user);
+      // console.log(user);
       await db.collection("users").doc(user.docId).set(user);
       this.props.history.goBack();
     } else {

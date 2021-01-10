@@ -135,7 +135,7 @@ class QuizCreate extends Component {
       //End Quiz Create
       let quiz = this.state.quiz;
       quiz.questions = this.state.questions;
-      console.log(quiz)
+      // console.log(quiz)
       await db.collection("quizes").add(quiz);
       this.props.history.push("/Dashboard");
       return;

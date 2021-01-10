@@ -87,7 +87,7 @@ class App extends Component {
           uid: user.uid,
           user,
         },()=>{
-          console.log(this.state)
+          // console.log(this.state)
           this.fetchUser();
         })
         if (currentPath === "Signup" || currentPath === "Login")
