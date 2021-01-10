@@ -20,11 +20,12 @@ class Courses extends Component {
       this.state.courses.filter((item) => {
         if (
           !this.state.joinedCourses.some((element) => {
-            if (element === item) return true;
+            if (element === item) return true; else return false;
           })
         ) {
           recommendedCourses.push(item);
-        }
+          return false;
+        }else return false;
       });
       this.setState({
         recommendedCourses,

@@ -1,5 +1,5 @@
 import React from "react";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -9,7 +9,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import QuizResult from "../QuizResult/QuizResult";
 import {v4 as uuid } from "uuid";
-import {db,auth} from "../../Util/firebase";
+// import {db,auth} from "../../Util/firebase";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -50,7 +50,7 @@ class CustomizedTables extends React.Component{
 
   
   componentDidUpdate=(preProp)=>{
-    if(preProp!=this.props){
+    if(preProp!==this.props){
       this.createRows();
     }  
   }
@@ -73,17 +73,18 @@ class CustomizedTables extends React.Component{
     this.setState({
       rows,
     })
-  };
+  }
   quizClick=(row)=>{
     const {user} = this.props;
-    let flag , score;
+    // let flag;
+    let score;
 
     user.quizes?user.quizes.forEach(item=>{
       if(item.id === row.id){
-        flag = true;
+        // flag = true;
         score = item.score;
       }
-    }):flag= false;
+    }):score = null;
 
 
     this.setState({
@@ -142,7 +143,7 @@ class CustomizedTables extends React.Component{
             <TableBody>
               {this.state.rows ? (
                 this.state.rows.map((row) => (
-                  <StyledTableRow key={uuid()} onClick={()=>{this.quizClick(row)}} key={row.title}>
+                  <StyledTableRow key={uuid()} onClick={()=>{this.quizClick(row)}}>
                     <StyledTableCell component="th" scope="row">
                       {row.title}
                     </StyledTableCell>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import CustomFunctions from "../CustomFunctions/CustomFunctions";
+// import CustomFunctions from "../CustomFunctions/CustomFunctions";
 import swal from "@sweetalert/with-react";
 import Swal from "sweetalert2/dist/sweetalert2";
 

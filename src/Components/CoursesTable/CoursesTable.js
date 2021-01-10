@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     fontFamily: "Roboto",
     fontSize: "20px",
-    fontWeight: "30px",
     fontWeight: "900",
     border: "2px solid #6c5ce7",
     height: "40px",

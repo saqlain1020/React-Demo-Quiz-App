@@ -1,8 +1,8 @@
 import { Container } from "@material-ui/core";
 import React from "react";
-import Quiz from "../Quiz/Quiz";
+// import Quiz from "../Quiz/Quiz";
 import QuizTable from "../QuizTable/QuizTable";
-import swal from "@sweetalert/with-react";
+// import swal from "@sweetalert/with-react";
 import { auth, db } from "../../Util/firebase";
 
 class Dashboard extends React.Component {

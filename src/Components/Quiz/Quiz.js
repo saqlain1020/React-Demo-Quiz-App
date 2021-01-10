@@ -4,7 +4,7 @@ import { withStyles, Button } from "@material-ui/core/";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import swal from "@sweetalert/with-react";
-import firebase,{ db, auth } from "../../Util/firebase";
+import { db  } from "../../Util/firebase";
 
 const styles = () => ({
   containerWrapper: {
@@ -28,7 +28,6 @@ const styles = () => ({
   },
   titleBar: {
     display: "flex",
-    justifyContent: "center",
     alignItems: "center",
     width: "100%",
     background: "#2c3e50",
@@ -73,20 +72,20 @@ class Quiz extends Component {
 
     },
   };
-  constructor(props) {
-    super(props);
-    // this.state.quizid = this.props.match.params.quizid
-    // let quizes = JSON.parse(localStorage.getItem("quizes"));
-    // for (let i = 0; i < quizes.length; i++) {
-    //   if (quizes[i].id === this.state.quizid) {
-    //     this.state.quiz = quizes[i];
-    //     break;
-    //   }
-    // }
-    // this.rand = (Math.random() * 3).toFixed(); // 0,1,2,3
-    // this.seconds = this.state.quiz.noOfQ * 30;
-    // this.done = false;
-  }
+  // constructor(props) {
+  //   super(props);
+  //   // this.state.quizid = this.props.match.params.quizid
+  //   // let quizes = JSON.parse(localStorage.getItem("quizes"));
+  //   // for (let i = 0; i < quizes.length; i++) {
+  //   //   if (quizes[i].id === this.state.quizid) {
+  //   //     this.state.quiz = quizes[i];
+  //   //     break;
+  //   //   }
+  //   // }
+  //   // this.rand = (Math.random() * 3).toFixed(); // 0,1,2,3
+  //   // this.seconds = this.state.quiz.noOfQ * 30;
+  //   // this.done = false;
+  // }
   componentDidUpdate=async(preProp)=>{
     if(!this.state.user){
       let user,query;

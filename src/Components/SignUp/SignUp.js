@@ -77,7 +77,7 @@ class SignUp extends Component {
     e.preventDefault();
     const {username,password} = this.state;
     try {
-      const user = await firebase.auth().createUserWithEmailAndPassword(username,password);  
+      await firebase.auth().createUserWithEmailAndPassword(username,password);  
       const userObj = {
         uid: firebase.auth().currentUser.uid,
         courses: []
